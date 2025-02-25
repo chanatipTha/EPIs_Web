@@ -1,0 +1,163 @@
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+
+const images = [
+  "/images/DJI_0024.JPG",
+  "/images/DJI_0052.JPG",
+  "/images/DJI_0050.JPG",
+  "/images/DJI_0049.JPG",
+];
+
+interface CardInfo {
+  icon: string;
+  title: string;
+  value: string;
+  unit: string;
+}
+
+const environmentInfo: Record<string, { title: string; cards: CardInfo[] }> = {
+  sriracha: {
+    title: "คลังน้ำมันศรีราชา",
+    cards: [
+      { icon: "/images/windy.png", title: "ลมภายในสถานประกอบการ", value: "294", unit: "หน่วย" },
+      { icon: "/images/water-cycle.png", title: "คุณภาพน้ำทิ้ง", value: "231", unit: "หน่วย" },
+      { icon: "/images/sound-waves.png", title: "เสียงภายในสถานประกอบการ", value: "10", unit: "หน่วย" },
+    ],
+  },
+  khaoboya: {
+    title: "คลังก๊าซเขาบ่อยา",
+    cards: [
+      { icon: "/images/windy.png", title: "ลมภายในสถานประกอบการ", value: "150", unit: "หน่วย" },
+      { icon: "/images/water-cycle.png", title: "คุณภาพน้ำทิ้ง", value: "15", unit: "หน่วย" },
+      { icon: "/images/sound-waves.png", title: "เสียงภายในสถานประกอบการ", value: "5", unit: "หน่วย" },
+    ],
+  },
+  lamlamchabang: {
+    title: "ชุมชนบ้านแหลมฉบัง",
+    cards: [
+      { icon: "/images/windy.png", title: "ลมภายในสถานประกอบการ", value: "100", unit: "หน่วย" },
+      { icon: "/images/water-cycle.png", title: "คุณภาพน้ำทิ้ง", value: "10", unit: "หน่วย" },
+      { icon: "/images/sound-waves.png", title: "เสียงภายในสถานประกอบการ", value: "3", unit: "หน่วย" },
+    ],
+  },
+};
+
+export default function HeroSection() {
+  const [index, setIndex] = useState(0);
+  const [scrolling, setScrolling] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("sriracha");
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 7500);
+
+    const handleScroll = () => {
+      if (window.scrollY >= window.innerHeight) {
+        setScrolling(true);
+      } else {
+        setScrolling(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedOption(event.target.value);
+  };
+
+  const { title, cards } = environmentInfo[selectedOption];
+
+  return (
+    <div>
+      {/* Hero Section */}
+      <section className="relative w-full h-screen overflow-hidden">
+        {/* Background Image */}
+        <motion.div
+          key={index}
+          className="absolute inset-0 bg-no-repeat bg-center bg-cover"
+          style={{ backgroundImage: `url(${images[index]})` }}
+          initial={{ opacity: 0, scale: 1 }}
+          animate={{ opacity: 1, scale: 1.1 }}
+          exit={{ opacity: 0, scale: 1 }}
+          transition={{ duration: 5, ease: "easeInOut" }}
+        />
+      </section>
+
+      <section className="relative w-full h-screen overflow-x-auto bg-white flex items-center justify-start px-[192px]">
+        {/* PTT Group */}
+        <div className="flex-shrink-0 justify-center items-center mt-[100px] min-w-[300px]">
+          <ul className="text-left">
+            <li className="text-[22px] font-bold text-black mb-[16px]">PTT Group</li>
+          </ul>
+          <ul className="text-left">
+            {/* รู้จักกับสถานประกอบการของเรา */}
+            <li className="text-[50px] font-bold text-black mb-[10px]">
+              รู้จักกับสถาน<br />ประกอบการ<br />ของเรา
+            </li>
+            <div className={`mt-[100px] transition-all duration-700 ${scrolling ? "transform translate-x-[100%]" : ""}`}>
+              <img 
+                src="public/images/PTT_Car2.png" 
+                alt="PTT Car" 
+                className="w-auto h-[300px]"
+              />
+            </div>
+          </ul>
+        </div>
+
+        {/* ส่วนที่สอง */}
+        <div className="flex-shrink-0 justify-center items-center bg-gray-200 p-10 rounded-lg shadow-lg min-w-[300px]">
+          <p className="text-lg text-gray-700">คลังก๊าซเขาบ่อยา</p>
+        </div>
+
+        {/* สามารถเพิ่มส่วนอื่นๆ ได้ตามต้องการ */}
+        <div className="flex-shrink-0 justify-center items-center bg-gray-300 p-10 rounded-lg shadow-lg min-w-[300px]">
+          <p className="text-lg text-gray-700">คลังน้ำมันศรีราชา</p>
+        </div>
+      </section>
+
+      {/* Dropdown และ Cards */}
+      <section className="relative w-full h-[556.81px] bg-black bg-cover bg-center" 
+        style={{ backgroundImage: "url('/images/DJI_0050.JPG')" }}>
+        
+        {/* Overlay */}
+        <div className="relative w-full h-full bg-black/70 flex flex-col items-center justify-center px-4">
+          
+         <h1 className="text-3xl font-bold text-white text-center mt-6">{title}</h1>
+
+          {/* Dropdown Selection */}
+          <div className="absolute left-10 top-10">
+            <select 
+              className="text-[22px] font-bold text-white bg-transparent border-none outline-none"
+              value={selectedOption}
+              onChange={handleSelectChange}
+            >
+              <option className="text-black" value="sriracha">คลังน้ำมันศรีราชา</option>
+              <option className="text-black" value="khaoboya">คลังก๊าซเขาบ่อยา</option>
+              <option className="text-black" value="lamlamchabang">ชุมชนบ้านแหลมฉบัง</option>
+            </select>
+            <p className="text-white text-sm mt-2">ข้อมูล ณ ไตรมาสที่ 1/2567</p>
+          </div>
+
+          {/* Business Info Cards */}
+          <div className="flex justify-center space-x-6">
+            {cards.map((card, index) => (
+              <div key={index} className="bg-gray-800 bg-opacity-80 rounded-xl p-6 w-[280px] h-[180px] flex flex-col items-center">
+                <img src={card.icon} alt="icon" className="w-12 h-12 mb-4" />
+                <p className="text-md text-white">{card.title}</p>
+                <h2 className="text-3xl font-bold text-white">{card.value}</h2>
+                <p className="text-sm text-gray-300">{card.unit}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}

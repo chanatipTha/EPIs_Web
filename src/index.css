@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@import "tailwindcss";
+ 
+/* Custom Theme */
+@theme {
+    --color-darkblue: oklch(0.72 0.11 178);
+ 
+    /* --breakpoint-ssm:320px; */
+}
+ 
+@layer base {
+ 
+    @font-face {
+        font-family: 'PTT Pride';
+        src: url("./assets/fonts/PTT_45_Pride-Fontset/Web/ptt45pride-bold.woff");
+    }
+   
+    html, body{
+        @apply bg-gray-400;
+        font-family: 'IBM Plex Sans Thai', sans-serif;
+    }
+}
+ 
+@layer components {
+    /* Bass button style */
+    .btn {
+        @apply px-4 py-2 hover:font-bold min-w-80 cursor-pointer;
+    }
+    
+    /* Primary button */
+    .btn-primary {
+        @apply bg-blue-500 hover:bg-blue-600;
+    }
+    
+    .underline-effect {
+        @apply relative  p-0;
+      }
+    
+      .underline-effect::after {
+        @apply content-[''] absolute w-full h-2 left-0 bottom-[-4px] bg-cyan-400 origin-bottom-right hover:origin-bottom-left scale-x-0 hover:scale-x-100 transition-transform duration-300;
+      }
+    
+}
+ 
+@layer utilities {
+ 
+    .underline {
+        text-decoration: underline;
+        text-transform: uppercase;
+    }
+ 
+    .no-underline {
+        text-decoration: none;
+    }
+}
+ 
