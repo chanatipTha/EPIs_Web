@@ -42,10 +42,64 @@ const environmentInfo: Record<string, { title: string; cards: CardInfo[] }> = {
   },
 };
 
+interface NewsItem {
+  id: number;
+  title: string;
+  image: string;
+  content: string;
+}
+
+const newsData: NewsItem[] = [
+  {
+    id: 1,
+    image: "https://via.placeholder.com/300",
+    title: "กิจกรรมที่ 1",
+    content: "รายละเอียดกิจกรรมที่ 1 โดยย่อ..."
+  },
+  {
+    id: 2,
+    image: "https://via.placeholder.com/300",
+    title: "กิจกรรมที่ 2",
+    content: "รายละเอียดกิจกรรมที่ 2 โดยย่อ..."
+  },
+  {
+    id: 3,
+    image: "https://via.placeholder.com/300",
+    title: "กิจกรรมที่ 3",
+    content: "รายละเอียดกิจกรรมที่ 3 โดยย่อ..."
+  },
+  {
+    id: 4,
+    image: "https://via.placeholder.com/300",
+    title: "กิจกรรมที่ 4",
+    content: "รายละเอียดกิจกรรมที่ 4 โดยย่อ..."
+  },
+  {
+    id: 5,
+    image: "https://via.placeholder.com/300",
+    title: "กิจกรรมที่ 4",
+    content: "รายละเอียดกิจกรรมที่ 5 โดยย่อ..."
+  },
+  {
+    id: 6,
+    image: "https://via.placeholder.com/300",
+    title: "กิจกรรมที่ 4",
+    content: "รายละเอียดกิจกรรมที่ 6 โดยย่อ..."
+  },
+  {
+    id: 7,
+    image: "https://via.placeholder.com/300",
+    title: "กิจกรรมที่ 4",
+    content: "รายละเอียดกิจกรรมที่ 7 โดยย่อ..."
+  },
+];
+
 export default function HeroSection() {
   const [index, setIndex] = useState(0);
   const [scrolling, setScrolling] = useState(false);
   const [selectedOption, setSelectedOption] = useState("sriracha");
+  const [showAll, setShowAll] = useState(false);
+  const displayedNews = showAll ? newsData : newsData.slice(0, 3);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -116,7 +170,6 @@ export default function HeroSection() {
           <p className="text-lg text-gray-700">คลังก๊าซเขาบ่อยา</p>
         </div>
 
-        {/* สามารถเพิ่มส่วนอื่นๆ ได้ตามต้องการ */}
         <div className="flex-shrink-0 justify-center items-center bg-gray-300 p-10 rounded-lg shadow-lg min-w-[300px]">
           <p className="text-lg text-gray-700">คลังน้ำมันศรีราชา</p>
         </div>
@@ -156,6 +209,33 @@ export default function HeroSection() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section>
+        <div className="max-w-4xl mx-auto p-4">
+        <h2 className="text-2xl font-bold mb-4">ข้อมูลข่าวสารและกิจกรรม</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {displayedNews.map((news) => (
+            <div key={news.id} className="border rounded-lg overflow-hidden shadow-lg">
+              <img src={news.image} alt={news.title} className="w-full h-48 object-cover" />
+              <div className="p-4">
+                <h3 className="text-lg font-semibold">{news.title}</h3>
+                <p className="text-gray-600 text-sm">{news.content}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        {newsData.length > 3 && (
+          <div className="text-center mt-4">
+            <button
+              onClick={() => setShowAll(!showAll)}
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            >
+              {showAll ? "แสดงน้อยลง" : "แสดงเพิ่มเติม"}
+            </button>
+          </div>
+          )}
         </div>
       </section>
     </div>

@@ -68,8 +68,6 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* สวิตช์โหมด */}
-        <DarkSwitch />
         {/* ปุ่มเปิดเมนูบนมือถือ */}
         <button className="md:hidden cursor-pointer" onClick={() => setIsOpened(!isOpened)}>
           <svg
